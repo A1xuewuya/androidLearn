@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ArrayAdapterDemo</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="news_category">
+        <item>新闻</item>
+        <item>财经</item>
+        <item>科技</item>
+        <item>体育</item>
+        <item>娱乐</item>
+        <item>汽车</item>
+        <item>博客</item>
+        <item>读书</item>
+    </string-array>
+</resources>

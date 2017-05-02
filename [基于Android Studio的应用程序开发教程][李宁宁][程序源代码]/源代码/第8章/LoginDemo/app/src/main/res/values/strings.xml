@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LoginDemo</string>
+    <drawable name="clr_normal">#22DDB8</drawable>
+    <drawable name="clr_pressed">#209C9C</drawable>
+</resources>

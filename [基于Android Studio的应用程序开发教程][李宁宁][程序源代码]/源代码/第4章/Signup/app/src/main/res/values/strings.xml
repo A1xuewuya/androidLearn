@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Signup</string>
+    <string name="action_settings">Settings</string>
+
+    <string name = "academic_prompt"> 请选择学历 </string>
+    <string-array name = "academic" >
+        <item> 博士 </item>
+        <item> 硕士 </item>
+        <item> 大学 </item>
+        <item>  高中</item>
+    </string-array>
+</resources>

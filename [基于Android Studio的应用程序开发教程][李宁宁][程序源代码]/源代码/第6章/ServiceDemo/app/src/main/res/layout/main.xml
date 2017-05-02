@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/c"
+    >
+
+	<LinearLayout
+	    android:id="@+id/linearLayout1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+
+	    <Button
+	        android:id="@+id/start"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.55"
+	        android:text="开始抽奖了" />
+
+	    <Button
+	        android:id="@+id/stop"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.64"
+	        android:text="揭晓大奖" />
+
+	</LinearLayout>
+
+	<TextView
+	    android:id="@+id/label"
+	    android:layout_width="fill_parent"
+	    android:layout_height="50dp"
+		android:textColor="#FFFFFF"
+		android:textSize="30sp"
+	    android:text="" />
+
+</LinearLayout>

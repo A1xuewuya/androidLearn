@@ -9,6 +9,10 @@
       将适配器关联到ListView
 
 
+
+
+
+
 -----------listView布局文件
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         //2.准备数据源
         String[] data={"初识安卓","开发环境","基础控件","线性布局","相对布局"}; //数据可以放入很多
 
-        //3.准备适配器Adapter
+        //3.准备适配器Adapter,适配器是数据和视图间的桥梁, 它负责把数据所提供的内容显示到视图所定义的外观中
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(
                 MainActivity.this,   //上下文
                 android.R.layout.simple_list_item_1,  //行布局，系统自带的布局

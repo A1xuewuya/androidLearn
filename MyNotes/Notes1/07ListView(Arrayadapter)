@@ -25,6 +25,7 @@
         android:layout_height="match_parent"
         android:id="@+id/lv"></ListView>
         
+   注释的代码可以直接在ListView控件属性里面添加
     <!--ListView分割线颜色及宽度-->
     <!--android:divider="#ff0000"-->
     <!--android:dividerHeight="10px"-->

@@ -1,0 +1,195 @@
+使用SimpleAdapter实现图文混编列表
+
+  在布局文件中编写代码
+        添加ListView标签(main.xml)
+        编写行布局文件(item.xml)
+  在Activity中编写代码
+       获取ListView对象
+       准备数据源(List<Map>)
+       配置适配器(SimpleAdapter)
+       将适配器关联到ListView
+
+
+
+
+==============主界面布局文件
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.test.MainActivity">
+
+    <!--listVieW标签-->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lv"
+        ></ListView>
+    <!--ListView分割线颜色及宽度-->
+    <!--android:divider="#ff0000"-->
+    <!--android:dividerHeight="10px"-->
+    <!--设置滚动条消失-->
+    <!--android:scrollbars="none"-->
+    <!--滚动条不自动隐藏-->
+    <!--android:fadeScrollbars="false"-->
+
+</LinearLayout>
+
+
+=================item项布局文件
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@mipmap/Books"
+            android:id="@+id/img"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="你好世界"
+                android:textSize="16dp"
+                android:id="@+id/title"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="版本：1.0"
+                android:id="@+id/version"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="大小：1.22M"
+                android:id="@+id/size"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卸载"
+            android:id="@+id/btn"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+</LinearLayout>
+
+
+==============java
+package com.example.administrator.test;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ListView lv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //1.获取ListView对象
+        lv= (ListView) findViewById(R.id.lv);
+
+        //2.准备数据源
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a2);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a3);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a4);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        // 第2次测试数据
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a5);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a6);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a7);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        //3.准备适配器Adapter
+        SimpleAdapter adapter=new SimpleAdapter(
+                MainActivity.this,    //上下文
+                list,                 //数据源
+                R.layout.item,          //行布局，自定义
+                new String[]{"logo","title","version","size"},  //Maps中的keys
+                new int[]{R.id.img,R.id.title,R.id.version,R.id.size}   //行布局中的id
+        );
+
+        //4.将适配器关联到ListView
+        lv.setAdapter(adapter);
+
+    }
+}
+
+
+

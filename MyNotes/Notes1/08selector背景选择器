@@ -7,6 +7,12 @@ android:state_pressed 控件是否被按压
 android:state_focused 控件是否获得焦点
 android:state_selected 控件是否被选中
 android:state_enabled 控件是否可用
+
+
+
+
+
+
  
  ===========btn_selector资源文件
  <?xml version="1.0" encoding="utf-8"?>
@@ -16,6 +22,24 @@ android:state_enabled 控件是否可用
     <!--点击状态下-->
     <item android:drawable="@drawable/btn_bg_p" android:state_pressed="true"/>
 </selector>
+
+
+
+===========values新建valuesxml
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--定义一个透明色-->
+    <color name="transparent">#00000000</color>
+    <!--定义一个ListView的item项选中的颜色-->
+    <color name="choose">#5050e7</color>
+</resources>
+
+
+
 
 ===========主布局文件
 
@@ -32,7 +56,7 @@ android:state_enabled 控件是否可用
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lv"
-        ></ListView>
+        android:listSelector="@drawable/item_selector"></ListView>
     <!--ListView分割线颜色及宽度-->
     <!--android:divider="#ff0000"-->
     <!--android:dividerHeight="10px"-->
@@ -42,6 +66,7 @@ android:state_enabled 控件是否可用
     <!--android:fadeScrollbars="false"-->
 
 </LinearLayout>
+
 
 
 =============item布局文件

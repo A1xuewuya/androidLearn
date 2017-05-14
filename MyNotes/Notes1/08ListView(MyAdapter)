@@ -1,3 +1,12 @@
+自定义适配器是应用最广的适配器，需要继承BaseAdapter，并重写方法
+自定义适配器的核心方法是getView(), 在该方法中通过LayoutInflater反射出行布局对象，并填充上数据内容
+ListView最重要的事件是item的点击和长按事件，同一时间内如果只想触发一个事件，可以在长按处理的最后返回true
+在Android中，可以通过Selector来实现控件背景的自动切换
+
+
+
+
+
 实现自定义Adapter的步骤
     继承BaseAdapter
     实现getView方法

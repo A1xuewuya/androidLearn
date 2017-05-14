@@ -1,3 +1,11 @@
+
+ListView的优化分为两个级别：一级优化是用系统提供的ConvertView，二级优化是在此基础上使用自定义的ViewHolder
+ConvertView和ViewHolder都是通过减少反射操作的次数来达到优化的目的
+要想实现界面的跳转，就必须封装一个Intent对象，在其中说明新打开Activity的信息
+Intent对象可以通过一系列put方法携带参数，再通过相应的get方法获取这些参数，从而达到界面间传参的目的
+
+
+
 ===========btn_selector资源文件
  <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">

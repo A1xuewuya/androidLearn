@@ -1,0 +1,191 @@
+实现自定义Adapter的步骤
+    继承BaseAdapter
+    实现getView方法
+    关联ListView
+
+
+
+=================新建一个java类，继承BaseAdapter，实现抽象方法
+
+package com.spl.demo.fristapp;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by 钧 on 2015/8/19.
+ */
+public class MyAdapter extends BaseAdapter {
+
+    /** 数据集合 */
+    List<Map<String,Object>> list;
+    /** 反射器 */
+    LayoutInflater inflater;
+    /**
+     * 构造器
+     * @param context 上下文
+     */
+    public MyAdapter(Context context){
+        inflater = LayoutInflater.from(context);
+    }
+    /**
+     * 传入数据集合
+     * @param list
+     */
+    public void setList(List<Map<String, Object>> list) {
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = inflater.inflate(R.layout.item,null);
+
+        ImageView logo = (ImageView) view.findViewById(R.id.logo);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView version = (TextView) view.findViewById(R.id.version);
+        TextView size = (TextView) view.findViewById(R.id.size);
+
+        logo.setImageResource((Integer) list.get(position).get("logo"));
+        title.setText((String) list.get(position).get("title"));
+        version.setText((String) list.get(position).get("version"));
+        size.setText((String) list.get(position).get("size"));
+
+        Button btn = (Button) view.findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("spl", "点击");
+            }
+        });
+
+        return view;
+    }
+}
+
+
+==============主activity源码
+package com.example.administrator.test;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ListView lv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //1.获取ListView对象
+        lv= (ListView) findViewById(R.id.lv);
+
+        //2.准备数据源
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a2);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a3);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a4);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        // 第2次测试数据
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a5);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a6);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a7);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        //3.准备适配器Adapter
+//        SimpleAdapter adapter=new SimpleAdapter(
+//                MainActivity.this,    //上下文
+//                list,                 //数据源
+//                R.layout.item,          //行布局，自定义
+//                new String[]{"logo","title","version","size"},  //Maps中的keys
+//                new int[]{R.id.img,R.id.title,R.id.version,R.id.size}   //行布局中的id
+//        );
+
+        //实例化自定义适配器
+        MyAdapter adapter=new MyAdapter(this);
+        adapter.setList(list);
+
+        //4.将适配器关联到ListView
+        lv.setAdapter(adapter);
+
+    }
+}
+
+

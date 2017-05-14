@@ -33,6 +33,8 @@
     <!--android:scrollbars="none"-->
     <!--滚动条不自动隐藏-->
     <!--android:fadeScrollbars="false"-->
+    <!--引用数组资源-->
+    <!--android:entries-->
 
 </LinearLayout>
 

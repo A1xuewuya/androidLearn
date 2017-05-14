@@ -1,0 +1,314 @@
+Selector背景选择器
+    是drawable文件夹下的一种资源文件（.xml）（resource file）
+    在其中可以定义多种不同状态下的控件背景
+    常用的状态如下表所示
+
+android:state_pressed 控件是否被按压
+android:state_focused 控件是否获得焦点
+android:state_selected 控件是否被选中
+android:state_enabled 控件是否可用
+ 
+ ===========btn_selector资源文件
+ <?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--通常状态下-->
+    <item android:drawable="@drawable/btn_bg_y_p" android:state_pressed="false"/>
+    <!--点击状态下-->
+    <item android:drawable="@drawable/btn_bg_p" android:state_pressed="true"/>
+</selector>
+
+===========主布局文件
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.test.MainActivity">
+
+    <!--listVieW标签-->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lv"
+        ></ListView>
+    <!--ListView分割线颜色及宽度-->
+    <!--android:divider="#ff0000"-->
+    <!--android:dividerHeight="10px"-->
+    <!--设置滚动条消失-->
+    <!--android:scrollbars="none"-->
+    <!--滚动条不自动隐藏-->
+    <!--android:fadeScrollbars="false"-->
+
+</LinearLayout>
+
+
+=============item布局文件
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/a1"
+            android:id="@+id/logo"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="你好世界"
+                android:textSize="16dp"
+                android:id="@+id/title"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="版本：1.0"
+                android:id="@+id/version"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="大小：1.22M"
+                android:id="@+id/size"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="卸载"
+            android:id="@+id/btn"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_selector"
+            android:textColor="#ffffff"
+            android:textSize="14sp"/>
+    </LinearLayout>
+</LinearLayout>
+
+
+=============activity
+
+
+package com.example.administrator.test;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+
+    private ListView lv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //1.获取ListView对象
+        lv= (ListView) findViewById(R.id.lv);
+
+        //2.准备数据源
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a2);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a3);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a4);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        // 第2次测试数据
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a5);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a6);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a7);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        //3.准备适配器Adapter
+//        SimpleAdapter adapter=new SimpleAdapter(
+//                MainActivity.this,    //上下文
+//                list,                 //数据源
+//                R.layout.item,          //行布局，自定义
+//                new String[]{"logo","title","version","size"},  //Maps中的keys
+//                new int[]{R.id.img,R.id.title,R.id.version,R.id.size}   //行布局中的id
+//        );
+
+        //实例化自定义适配器
+        MyAdapter adapter=new MyAdapter(this);
+        adapter.setList(list);
+
+        //4.将适配器关联到ListView
+        lv.setAdapter(adapter);
+
+
+        //5.用实现接口的方式添加单击事件
+        lv.setOnItemClickListener(this);
+        //6.用实现接口的方式添加长按
+        lv.setOnItemLongClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(this, "点击了这个ListView的"+i+"item项", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(this, "长按了"+i+"项", Toast.LENGTH_SHORT).show();
+        //这个返回值的话决定是否是否消化该事件
+        //true表示消化事件，事件不会继续传递下去
+        //false表示不消化事件，事件还会继续传递下去
+        return true;
+    }
+}
+
+
+===============MyAdapter类
+package com.example.administrator.test;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+import java.util.Map;
+
+
+public class MyAdapter extends BaseAdapter {
+
+    /** 数据集合 */
+    List<Map<String,Object>> list;
+    /** 反射器 */
+    LayoutInflater inflater;
+    /**
+     * 构造器
+     * @param context 上下文
+     */
+    public MyAdapter(Context context){
+        inflater = LayoutInflater.from(context);
+    }
+    /**
+     * 传入数据集合
+     * @param list
+     */
+    public void setList(List<Map<String, Object>> list) {
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = inflater.inflate(R.layout.item,null);
+
+        ImageView logo = (ImageView) view.findViewById(R.id.logo);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView version = (TextView) view.findViewById(R.id.version);
+        TextView size = (TextView) view.findViewById(R.id.size);
+
+        logo.setImageResource((Integer) list.get(position).get("logo"));
+        title.setText((String) list.get(position).get("title"));
+        version.setText((String) list.get(position).get("version"));
+        size.setText((String) list.get(position).get("size"));
+
+        Button btn = (Button) view.findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("spl", "点击");
+            }
+        });
+
+        return view;
+    }
+}
+
+
+
+  
+ 

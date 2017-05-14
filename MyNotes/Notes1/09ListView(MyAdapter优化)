@@ -1,0 +1,318 @@
+===========btn_selector资源文件
+ <?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--通常状态下-->
+    <item android:drawable="@drawable/btn_bg_y_p" android:state_pressed="false"/>
+    <!--点击状态下-->
+    <item android:drawable="@drawable/btn_bg_p" android:state_pressed="true"/>
+</selector>
+
+
+
+===========values新建valuesxml
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--定义一个透明色-->
+    <color name="transparent">#00000000</color>
+    <!--定义一个ListView的item项选中的颜色-->
+    <color name="choose">#5050e7</color>
+</resources>
+
+
+
+
+===========主布局文件
+
+package com.example.administrator.test;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+
+    private ListView lv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //1.获取ListView对象
+        lv= (ListView) findViewById(R.id.lv);
+
+        //2.准备数据源
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a2);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a3);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a4);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        // 第2次测试数据
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a5);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a6);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a7);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        //3.准备适配器Adapter
+//        SimpleAdapter adapter=new SimpleAdapter(
+//                MainActivity.this,    //上下文
+//                list,                 //数据源
+//                R.layout.item,          //行布局，自定义
+//                new String[]{"logo","title","version","size"},  //Maps中的keys
+//                new int[]{R.id.img,R.id.title,R.id.version,R.id.size}   //行布局中的id
+//        );
+
+        //实例化自定义适配器
+        MyAdapter adapter=new MyAdapter(this);
+        adapter.setList(list);
+
+        //4.将适配器关联到ListView
+        lv.setAdapter(adapter);
+
+
+        //5.用实现接口的方式添加单击事件
+        lv.setOnItemClickListener(this);
+        //6.用实现接口的方式添加长按
+        lv.setOnItemLongClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(this, "点击了这个ListView的"+i+"item项", Toast.LENGTH_SHORT).show();
+
+        //在这里实现页面的跳转
+        Intent intent=new Intent();
+        intent.setClass(MainActivity.this,detailsActivity.class);
+//        intent.putExtra("nzc",""+i);  //引号的含义是将装换为String类型
+
+        //1.获得所点击行的数据
+        HashMap<String,Object> itemMap= (HashMap<String, Object>) adapterView.getItemAtPosition(i);
+        //2.获取当前行的标题
+        intent.putExtra("nzc",""+i);
+        intent.putExtra("title",""+itemMap.get("title"));
+        startActivity(intent);
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(this, "长按了"+i+"项", Toast.LENGTH_SHORT).show();
+        //这个返回值的话决定是否是否消化该事件
+        //true表示消化事件，事件不会继续传递下去
+        //false表示不消化事件，事件还会继续传递下去
+        return true;
+    }
+}
+
+
+
+
+===============MyAdapter类
+package com.example.administrator.test;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.example.administrator.test.R.id.size;
+
+
+public class MyAdapter extends BaseAdapter {
+
+    /** 数据集合 */
+    List<Map<String,Object>> list;
+    /** 反射器 */
+    LayoutInflater inflater;
+    /**
+     * 构造器
+     * @param context 上下文
+     */
+    public MyAdapter(Context context){
+        inflater = LayoutInflater.from(context);
+    }
+    /**
+     * 传入数据集合
+     * @param list
+     */
+    public void setList(List<Map<String, Object>> list) {
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        //声明一个ViewHolder变量
+        ViewHolder holder=null;
+
+        if(convertView==null){
+            convertView=inflater.inflate(R.layout.item,null);
+            holder=new ViewHolder();
+            holder.logo = (ImageView)convertView.findViewById(R.id.logo);
+            holder.title = (TextView) convertView.findViewById(R.id.title);
+            holder.version = (TextView) convertView.findViewById(R.id.version);
+            holder.size = (TextView) convertView.findViewById(size);
+
+            convertView.setTag(holder);
+        }else {
+            holder= (ViewHolder) convertView.getTag();
+        }
+
+
+        Map map=list.get(position);
+        holder.logo.setImageResource((Integer) map.get("logo"));
+        holder.title.setText((String) map.get("title"));
+        holder.version.setText((String) map.get("version"));
+        holder.size.setText((String) map.get("size"));
+
+        Button btn = (Button) convertView.findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("spl", "点击");
+            }
+        });
+
+        return convertView;
+    }
+
+    //新建一个ViewHolder的类,也可以改成静态
+    public static  class ViewHolder{
+        ImageView logo;
+        TextView title;
+        TextView version;
+        TextView size;
+    }
+}
+
+
+
+
+
+=========新建一个activity--detailsActity
+
+======
+
+package com.example.administrator.test;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class detailsActivity extends AppCompatActivity {
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_details);
+
+        String nzc=getIntent().getStringExtra("nzc");
+        String title=getIntent().getStringExtra("title");
+
+        TextView info= (TextView) findViewById(R.id.info);
+        info.setText("传过来的编号是："+nzc+"title为"+title);
+    }
+}
+
+
+=================details的布局文件
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.test.detailsActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/info"
+        android:text="你好世界"
+        android:gravity="center"
+        android:layout_marginTop="50dp"/>
+</LinearLayout>
+

@@ -1,0 +1,213 @@
+需求： 
+    在用户按下回退键是，弹出确认框
+    按取消留在原界面，按确定退出程序
+
+分析： 
+    首先找到引发退出的动作（事件）
+    在改事件中编写代码，弹出确认对话框
+    在确定按钮事件中终止当前程序
+    在取消按钮事件中使原有的退出流程无效化
+
+实现步骤： 
+    重写onBackPressed方法
+    去除原有的父类方法
+    编写确认对话框
+    在确定事件里调用finish来结束程序
+    
+    
+    package com.example.administrator.test;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+
+    private ListView lv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //1.获取ListView对象
+        lv= (ListView) findViewById(R.id.lv);
+
+        //2.准备数据源
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a2);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a3);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a4);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        // 第2次测试数据
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a5);
+        map.put("title", "千千静听");
+        map.put("version", "版本: 8.4.0");
+        map.put("size", "大小: 32.81M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a6);
+        map.put("title", "时空猎人");
+        map.put("version", "版本: 2.4.1");
+        map.put("size", "大小: 84.24M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a7);
+        map.put("title", "360新闻");
+        map.put("version", "版本: 6.2.0");
+        map.put("size", "大小: 11.74M");
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("logo", R.drawable.a1);
+        map.put("title", "捕鱼达人2");
+        map.put("version", "版本: 2.3.0");
+        map.put("size", "大小: 45.53M");
+        list.add(map);
+
+        //3.准备适配器Adapter
+//        SimpleAdapter adapter=new SimpleAdapter(
+//                MainActivity.this,    //上下文
+//                list,                 //数据源
+//                R.layout.item,          //行布局，自定义
+//                new String[]{"logo","title","version","size"},  //Maps中的keys
+//                new int[]{R.id.img,R.id.title,R.id.version,R.id.size}   //行布局中的id
+//        );
+
+        //实例化自定义适配器
+        MyAdapter adapter=new MyAdapter(this);
+        adapter.setList(list);
+
+        //4.将适配器关联到ListView
+        lv.setAdapter(adapter);
+
+
+        //5.用实现接口的方式添加单击事件
+        lv.setOnItemClickListener(this);
+        //6.用实现接口的方式添加长按
+        lv.setOnItemLongClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(this, "点击了这个ListView的"+i+"item项", Toast.LENGTH_SHORT).show();
+
+        //在这里实现页面的跳转
+        Intent intent=new Intent();
+        intent.setClass(MainActivity.this,detailsActivity.class);
+//        intent.putExtra("nzc",""+i);  //引号的含义是将装换为String类型
+
+        //1.获得所点击行的数据
+        HashMap<String,Object> itemMap= (HashMap<String, Object>) adapterView.getItemAtPosition(i);
+        //2.获取当前行的标题
+        intent.putExtra("nzc",""+i);
+        intent.putExtra("title",""+itemMap.get("title"));
+        startActivity(intent);
+    }
+
+
+
+    //定义一个全局的成员数组变量
+    ArrayList<Integer> choice=new ArrayList<Integer>();
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(this, "长按了"+i+"项", Toast.LENGTH_SHORT).show();
+        //这个返回值的话决定是否是否消化该事件
+        //true表示消化事件，事件不会继续传递下去
+        //false表示不消化事件，事件还会继续传递下去
+
+        //定义一个数组,常量可以穿透作用域
+        final String[] arr={"读书","学习","游戏"};
+
+        //实例化建造者模式
+        new AlertDialog.Builder(this)
+        .setIcon(R.drawable.a4)
+        .setTitle("多选对话框")
+        .setMultiChoiceItems(arr,
+                new boolean[]{false, false, false},
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if(b){
+                            choice.add(i);
+                        }
+                        else{
+                            choice.remove(i);
+                        }
+                        //当用户发生选择改变的时候弹框
+                        Toast.makeText(MainActivity.this, "用户的选择"+choice.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        .setNegativeButton("取消",null)   //在这个回调事件函数里面 null，表示没有事件响应
+        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+//                Toast.makeText(MainActivity.this, "点击了那个确定按钮", Toast.LENGTH_SHORT).show();
+                //finish()的意思是结束生命周期，system.exit()是完全结束进程
+//                finish();
+
+                Toast.makeText(MainActivity.this, "用户的决定是"+choice.toString(), Toast.LENGTH_SHORT).show();
+            }
+        })
+        .show();
+        return true;
+    }
+
+//    重写onBackPressed方法,去除原有的父类方法
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.a7)
+                .setTitle("确认对话框")
+                .setMessage("你确认要退出程序么？")
+                .setNegativeButton("取消",null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .create().show();
+    }
+}
+
+    
+
+

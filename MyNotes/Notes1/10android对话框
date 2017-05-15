@@ -4,5 +4,200 @@
     第三步 调用create()方法创建
     第四步 调用show()方法显示对话框
     
+ 
+ 
+ =====================这是最简单的提示对话框，在item或者按钮的点击事件里面声明
+ 
+        //实例化建造者模式
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        //用builder构建各种方法
+        builder.setIcon(R.drawable.a4);
+        builder.setTitle("你好世界");
+        builder.setMessage("这是一个简单消息对话框");
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+                Toast.makeText(MainActivity.this, "点击了那个取消按钮", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //将对话框显示出来
+        builder.create().show();
+        
+        
+ =====================这是一个对话框，简洁模式。连点编程方式，必须得是方法的返回值又恰好是对象的时候
+ 
+        //实例化建造者模式
+        new AlertDialog.Builder(this)
+        .setIcon(R.drawable.a4)
+        .setTitle("你好世界")
+        .setMessage("这是一个简单消息对话框")
+        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+                Toast.makeText(MainActivity.this, "点击了那个取消按钮", Toast.LENGTH_SHORT).show();
+            }
+        })
+        .create().show();
+  
+ 
+ ===========================这是一个确认对话框，用来征求用户的确定，有确定和取消按钮
+ 
+        //实例化建造者模式
+        new AlertDialog.Builder(this)
+        .setIcon(R.drawable.a4)
+        .setTitle("你好世界")
+//        .setMessage("这是一个简单消息对话框")
+        .setNegativeButton("取消",null)   //在这个回调事件函数里面 null，表示没有事件响应
+        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+//                Toast.makeText(MainActivity.this, "点击了那个确定按钮", Toast.LENGTH_SHORT).show();
+                //finish()的意思是结束生命周期，system.exit()是完全结束进程
+                finish();
+            }
+        })
+        .show();
+ 
+  
+  ===========================列表对话框
+  用途： 
+         以列表的形式展示数据
+         列表项可点击
+         需要一个数组资源作为数据源
+         
+  实现步骤： 
+      准备一个数组资源
+      调用setItems()设置列表项
+      
+      
+      
+        //定义一个数组,常量可以穿透作用域
+        final String[] arr={"你好","大海","蓝天"};
+
+        //实例化建造者模式
+        new AlertDialog.Builder(this)
+        .setIcon(R.drawable.a4)
+        .setTitle("你好世界")
+        .setItems(arr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //列表对话框的item项的点击事件
+                Toast.makeText(MainActivity.this, "点击了第"+i+"项", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "点击了第"+arr[i]+"项", Toast.LENGTH_SHORT).show();
+            }
+        })
+        .setNegativeButton("取消",null)   //在这个回调事件函数里面 null，表示没有事件响应
+        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+//                Toast.makeText(MainActivity.this, "点击了那个确定按钮", Toast.LENGTH_SHORT).show();
+                //finish()的意思是结束生命周期，system.exit()是完全结束进程
+                finish();
+            }
+        })
+        .show();
+        
+        
+        
+        
+        
+        
+        ========================单选对话框
+        
+//需要一个变量接受用户的选择，这是定义的全局变量
+    int selectedId=0;
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(this, "长按了"+i+"项", Toast.LENGTH_SHORT).show();
+        //这个返回值的话决定是否是否消化该事件
+        //true表示消化事件，事件不会继续传递下去
+        //false表示不消化事件，事件还会继续传递下去
+
+
+        //定义一个数组,常量可以穿透作用域
+        final String[] arr={"你好","大海","蓝天"};
+
+        //实例化建造者模式
+        new AlertDialog.Builder(this)
+        .setIcon(R.drawable.a4)
+        .setTitle("单选对话框")
+        .setSingleChoiceItems(arr, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                selectedId=i;
+                Toast.makeText(MainActivity.this, "用户选择了"+arr[i], Toast.LENGTH_SHORT).show();
+            }
+        })
+        .setNegativeButton("取消",null)   //在这个回调事件函数里面 null，表示没有事件响应
+        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+//                Toast.makeText(MainActivity.this, "点击了那个确定按钮", Toast.LENGTH_SHORT).show();
+                //finish()的意思是结束生命周期，system.exit()是完全结束进程
+//                finish();
+
+                Toast.makeText(MainActivity.this, "用户的决定是"+arr[selectedId], Toast.LENGTH_SHORT).show();
+            }
+        })
+        .show();
+        return true;
+    }
     
     
+    
+    
+    
+    
+    ========================多选对话框
+    
+    
+    
+    //定义一个全局的成员数组变量
+    ArrayList<Integer> choice=new ArrayList<Integer>();
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(this, "长按了"+i+"项", Toast.LENGTH_SHORT).show();
+        //这个返回值的话决定是否是否消化该事件
+        //true表示消化事件，事件不会继续传递下去
+        //false表示不消化事件，事件还会继续传递下去
+
+        //定义一个数组,常量可以穿透作用域
+        final String[] arr={"读书","学习","游戏"};
+
+        //实例化建造者模式
+        new AlertDialog.Builder(this)
+        .setIcon(R.drawable.a4)
+        .setTitle("多选对话框")
+        .setMultiChoiceItems(arr,
+                new boolean[]{false, false, false},
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if(b){
+                            choice.add(i);
+                        }
+                        else{
+                            choice.remove(i);
+                        }
+                        //当用户发生选择改变的时候弹框
+                        Toast.makeText(MainActivity.this, "用户的选择"+choice.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        .setNegativeButton("取消",null)   //在这个回调事件函数里面 null，表示没有事件响应
+        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //按钮点击的事件,用内部类的方式
+//                Toast.makeText(MainActivity.this, "点击了那个确定按钮", Toast.LENGTH_SHORT).show();
+                //finish()的意思是结束生命周期，system.exit()是完全结束进程
+//                finish();
+
+                Toast.makeText(MainActivity.this, "用户的决定是"+choice.toString(), Toast.LENGTH_SHORT).show();
+            }
+        })
+        .show();

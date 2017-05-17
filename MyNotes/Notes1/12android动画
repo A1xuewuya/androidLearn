@@ -1,0 +1,161 @@
+Android动画的分类
+
+    补间动画(TweenAnimation)
+    逐帧动画(FrameAnimation)
+    属性动画
+    
+    
+补间动画是指在确定了动画的起始和终点两个端点状态之后，由系统自动计算中间的各个状态，并补充到两个端点之间，形成一个连续的动画效果。
+
+    补间动画可分为4种类型：
+    渐变动画(AlphaAnimation)
+    缩放动画(ScaleAnimation)
+    平移动画(TranslateAnimation)
+    旋转动画(RotateAnimation)
+
+
+
+补间动画的实现步骤
+    在res目录下建立文件夹anim
+    在anim文件夹下建立animation.xml动画文件
+    在animation.xml文件中描述某种动画的属性
+    在代码中利用AnimationUtils.loadAnimation方法加载动画文件
+    在代码中用View的startAnimation方法启动动画
+    
+
+
+渐变动画(AlphaAnimation)
+      渐变动画可以演示一个视图在透明度上的渐变效果。它的主要属性有：
+      fromAlpha 动画起始时透明度，值取在0.0-1.0之间
+      toAlpha   动画结束时透明度，值取在0.0-1.0之间
+      duration  动画持续时间，以毫秒为单位
+      repeatCount 动画重复次数，这个重复次数不包括第一次播放
+
+
+=====================alpha.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="2000"
+        android:repeatCount="3"
+        ></alpha>
+</set>
+
+
+=====================activity布局
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.test1.MainActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/timg"
+        android:id="@+id/img"/>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="播放动画"
+        android:onClick="btnClick"/>
+</LinearLayout>
+
+
+====================java代码
+
+
+
+
+package com.example.administrator.test1;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ImageView view;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        view= (ImageView) findViewById(R.id.img);
+
+    }
+
+    //启动动画的单击事件
+    //透明度渐变动画
+    public void btnClick(View v){
+        Animation animation= AnimationUtils.loadAnimation(this,R.anim.alpha);
+        view.clearAnimation();
+        view.startAnimation(animation);
+    }
+}
+
+
+
+====================通过java实现,意义一样
+
+
+package com.example.administrator.test1;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ImageView view;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        view= (ImageView) findViewById(R.id.img);
+
+    }
+
+    //启动动画的单击事件
+    //透明度渐变动画
+    public void btnClickXML(View v){
+        Animation animation= AnimationUtils.loadAnimation(this,R.anim.alpha);
+        view.clearAnimation();
+        view.startAnimation(animation);
+    }
+
+    //通过代码方式实现
+    public void btnClickJAVA(View v){
+        Animation animation= new AlphaAnimation(0.1f,1.0f);
+        animation.setDuration(2000);
+        animation.setRepeatCount(2);
+        view.clearAnimation();
+        view.startAnimation(animation);
+    }
+
+
+}
+
+
+
+

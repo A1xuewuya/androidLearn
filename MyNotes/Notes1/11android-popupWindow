@@ -1,0 +1,59 @@
+实现popupWindow的实现步骤
+
+        第一步、自定义.xml布局文件
+        第二步、获取LayoutInflater对象
+        第三步、调用inflate()方法获取View对象
+        第四步、创建PopupWindow对象
+        第五步、调用PopupWindow的showAsDropDown或者showAsLocation方法显示对话框窗口
+
+
+
+==============主activity
+
+
+package com.example.administrator.test;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.PopupWindow;
+import android.widget.Toast;
+
+public class Dialog extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dialog);
+    }
+
+    //声明ppopup变量
+    PopupWindow popup;
+    public void btnclick(View view){  //view代表传来的按钮对象
+        LayoutInflater inflater=LayoutInflater.from(this);   //声明反射器
+        View myView=inflater.inflate(R.layout.layout_myself_dialog,null);  //用反射器的反射方法找到他的资源id
+
+        popup=new PopupWindow(myView,300,250);   //单位为px
+
+        myView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.dismiss();
+                Toast.makeText(Dialog.this, "点击了确定", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //下拉式弹出
+//        popup.showAsDropDown(view);
+
+        //固定位置弹出式
+        popup.showAtLocation(view,Gravity.CENTER ,0,0);  //偏移量
+    }
+}
+
+
+
+
+=================布局跟自定义对话框相似

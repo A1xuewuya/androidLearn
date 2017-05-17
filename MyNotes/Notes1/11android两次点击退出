@@ -1,4 +1,14 @@
 
+
+   自定义对话框通过setView方法可以显示自定义布局
+   Activity通过修改主题也可以实现类似对话框的效果
+   PopupWindow可以以下拉和指定位置的方式弹出一个窗口
+   日期和时间选择对话框是AlertDialog的子类,它们通常使用在特定的场合
+   ProgressDialog是进度对话框,通常与Handler一起使用,用来提示用户等待耗时操作
+
+
+
+
 ===========onBackPressed方法中
 
  private long mExitTime;

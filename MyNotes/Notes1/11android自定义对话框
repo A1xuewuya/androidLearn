@@ -1,0 +1,132 @@
+自定义对话框的实现步骤
+    第一步、自定义.xml布局文件
+    第二步、获取LayoutInflater对象
+    第三步、调用inflate()方法获取View对象
+    第四步、调用Builder对象的setView()方法设置View
+    第五步、获取输入内容或者监听点击事件等
+    
+    
+===================布局
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.test.Dialog">
+    
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_open"
+        android:text="点击弹出对话框"
+        android:layout_centerInParent="true"
+        android:onClick="btnclick"/>
+
+</RelativeLayout>
+
+
+
+
+==================自定义对话框的样式
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#0186ff"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:text="提醒"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eac7bd"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+        <TextView
+            android:text="恭喜您,验证码发送成功"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn"
+            android:text="确定"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_selector"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+=新建一个activity，给某一个item或者按钮添加单击事件，弹出对话框
+
+========================主activity
+
+
+package com.example.administrator.test;
+
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Toast;
+
+public class Dialog extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dialog);
+    }
+
+    //声明Dialog变量
+    AlertDialog dialog;
+    public void btnclick(View view){  //view代表传来的按钮对象
+        LayoutInflater inflater=LayoutInflater.from(this);   //声明反射器
+        View myView=inflater.inflate(R.layout.layout_myself_dialog,null);  //用反射器的反射方法找到他的资源id
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);   //建立
+        builder.setView(myView);
+
+
+        myView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Toast.makeText(Dialog.this, "点击了确定", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog=builder.create();
+        dialog.show();
+    }
+}
+

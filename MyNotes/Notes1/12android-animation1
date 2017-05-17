@@ -1,1 +1,65 @@
 
+=================缩放动画的实现
+
+
+package com.example.administrator.test1;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ImageView view;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        view= (ImageView) findViewById(R.id.img);
+
+    }
+
+    //启动动画的单击事件
+    //透明度渐变动画
+//    public void btnClickXML(View v){
+//        Animation animation= AnimationUtils.loadAnimation(this,R.anim.alpha);
+//        view.clearAnimation();
+//        view.startAnimation(animation);
+//    }
+    //缩放动画
+    public void btnClickXML(View v){
+        Animation animation= AnimationUtils.loadAnimation(this,R.anim.scale);
+        view.clearAnimation();
+        view.startAnimation(animation);
+    }
+
+
+
+
+//    //通过代码方式实现渐变动画
+//    public void btnClickJAVA(View v){
+//        Animation animation= new AlphaAnimation(0.1f,1.0f);
+//        animation.setDuration(2000);
+//        animation.setRepeatCount(2);
+//        view.clearAnimation();
+//        view.startAnimation(animation);
+//    }
+
+    //通过代码方式实现缩放动画
+    public void btnClickJAVA(View v){
+        Animation animation= new ScaleAnimation(0.0f,2.0f,0.0f,2.0f,
+        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(2000);
+        animation.setRepeatCount(2);
+        view.clearAnimation();
+        view.startAnimation(animation);
+    }
+
+
+}
